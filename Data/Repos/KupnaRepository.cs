@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repos
 {
-    public class KupnaRepository //: IKupnaRepository
+    public class KupnaRepository : IKupnaRepository
     {
-/*
+
         private readonly ApplicationDbContext _context;
         public KupnaRepository(ApplicationDbContext context)
         {
@@ -31,13 +31,13 @@ namespace Data.Repos
             {
                 try
                 {
-                    Firma firmaKupujacy = await _context.Firmy
+                    Owner firmaKupujacy = await _context.Firmy
                         .Include(i => i.Wlasciciel)
                         .FirstOrDefaultAsync(f => f.NazwaFirmy == "FirmaWlasciciel");
-                    DaneOsobowe daneOsoboweKupujacy = firmaKupujacy.Wlasciciel;
+                    Client daneOsoboweKupujacy = firmaKupujacy.Wlasciciel;
 
 
-                    DaneOsobowe daneOsoboweSprzedajacy = new DaneOsobowe()
+                    Client daneOsoboweSprzedajacy = new Client()
                     {
                         Imie = model.Imie_DaneOsobowe,
                         Nazwisko = model.Nazwisko_DaneOsobowe,
@@ -52,12 +52,12 @@ namespace Data.Repos
                         Plec = model.Plec_DaneOsobowe,
                         Email = model.Email_DaneOsobowe,
                         RodzajTransakcji = model.RodzajTransakcji_DaneOsobowe,
-                        DataDodania = DateTime.Now.ToString ()
+                        DataDodania = DateTime.Now.ToString()
                     };
                     _context.DaneOsobowe.Add(daneOsoboweSprzedajacy);
                     await _context.SaveChangesAsync();
 
-                    Firma firmaSprzedajacy = new Firma()
+                    Owner firmaSprzedajacy = new Owner()
                     {
                         FirmaId = Guid.NewGuid().ToString(),
                         Kraj = model.Kupno.FirmaSprzedajacy.Kraj,
@@ -246,6 +246,6 @@ namespace Data.Repos
             }
             catch { }
         }
-*/
+
     }
 }

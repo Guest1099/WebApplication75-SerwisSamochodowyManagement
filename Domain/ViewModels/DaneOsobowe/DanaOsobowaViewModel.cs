@@ -1,6 +1,6 @@
 ﻿namespace Domain.ViewModels.DaneOsobowe
 {
-    public class DanaOsobowaViewModel : Models.DaneOsobowe
+    public class DanaOsobowaViewModel : Models.Client
     {
     }
 }

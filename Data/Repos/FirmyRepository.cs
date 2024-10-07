@@ -15,12 +15,12 @@ namespace Data.Repos
             _context = context;
         }
 
-        public async Task<List<Firma>> GetAll()
+        public async Task<List<Owner>> GetAll()
         {
             return await _context.Firmy.ToListAsync();
         }
 
-        public async Task<Firma> Get(string id)
+        public async Task<Owner> Get(string id)
         {
             return await _context.Firmy.FirstOrDefaultAsync(f => f.FirmaId == id);
         }
@@ -32,7 +32,7 @@ namespace Data.Repos
             {
                 try
                 {
-                    DaneOsobowe daneOsobowe = new DaneOsobowe()
+                    Client daneOsobowe = new Client()
                     {
                         Imie = model.Imie_DaneOsobowe,
                         Nazwisko = model.Nazwisko_DaneOsobowe,
@@ -53,7 +53,7 @@ namespace Data.Repos
                     await _context.SaveChangesAsync();
 
 
-                    Firma firma = new Firma()
+                    Owner firma = new Owner()
                     {
                         FirmaId = Guid.NewGuid().ToString(),
                         Kraj = model.Kraj,
@@ -202,7 +202,7 @@ namespace Data.Repos
                                 file.CopyTo(stream);
                                 photoData = stream.ToArray();
 
-                                PhotoFirma photoFirma = new PhotoFirma()
+                                PhotoOwner photoFirma = new PhotoOwner()
                                 {
                                     PhotoFirmaId = Guid.NewGuid().ToString(),
                                     PhotoData = photoData,

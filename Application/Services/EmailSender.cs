@@ -7,10 +7,11 @@ namespace Application.Services
     /// </summary>
     public class EmailSender //: IEmailSender
     {
+        /*private const string apiKey = "abc";
         public void Send(string email)
         {
             if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
-                Configuration.Default.ApiKey.Add("api-key", "Tutaj_API_KEY_z_pliku_tekstowego");
+                Configuration.Default.ApiKey.Add("api-key", "apiKey");
 
             var apiInstance = new TransactionalEmailsApi();
             string SenderName = "dariuszwacchat";
@@ -47,7 +48,7 @@ namespace Application.Services
         public void Send(string email, string title, string htmlBody)
         {
             if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
-                Configuration.Default.ApiKey.Add("api-key", "Tutaj_API_KEY_z_pliku_tekstowego");
+                Configuration.Default.ApiKey.Add("api-key", "apiKey");
 
             var apiInstance = new TransactionalEmailsApi();
             string SenderName = "dariuszwacchat";
@@ -73,7 +74,7 @@ namespace Application.Services
             {
                 // Debug.WriteLine(e.Message);
             }
-        }
+        }*/
 
     }
 }

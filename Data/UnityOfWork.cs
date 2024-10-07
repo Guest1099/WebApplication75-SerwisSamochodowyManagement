@@ -17,12 +17,12 @@ namespace Data
         public UnityOfWork(ApplicationDbContext context)
         {
             _context = context;
-/*
+
             PhotosUserRepository = new PhotosUserRepository(_context);
             FirmyRepository = new FirmyRepository(_context);
             KupnaRepository = new KupnaRepository(_context);
             SprzedazeRepository = new SprzedazeRepository(_context);
-            TowaryRepository = new TowaryRepository(_context);*/
+            TowaryRepository = new TowaryRepository(_context);
         }
 
         public async Task SaveChangesAsync()

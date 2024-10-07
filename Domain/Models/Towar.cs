@@ -11,7 +11,6 @@ namespace Domain.Models
         public string Opis { get; set; }
         public double Cena { get; set; }
         public int Sztuk { get; set; }
-        public double Rabat { get; set; }
         public string Kolor { get; set; }
         public double Wysokosc { get; set; }
         public double Szerokosc { get; set; }
@@ -19,15 +18,20 @@ namespace Domain.Models
         [DataType(DataType.Date)]
         public DateTime RokProdukcji { get; set; }
         public double Przebieg { get; set; }
-        public RodzajHandlu RodzajHandlu { get; set; }
         public DateTime DataDodania { get; set; }
+
+
 
 
         public string RodzajTowaruId { get; set; }
         public RodzajTowaru RodzajTowaru { get; set; }
 
+
+
         public string MarkaId { get; set; }
         public Marka Marka { get; set; }
+
+
 
 
         public List<Kupno> Kupna { get; set; }

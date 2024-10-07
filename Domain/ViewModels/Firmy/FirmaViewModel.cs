@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Domain.ViewModels.Firmy
 {
-    public class FirmaViewModel : Firma
+    public class FirmaViewModel : Owner
     {
         public string Imie_DaneOsobowe { get; set; }
         public string Nazwisko_DaneOsobowe { get; set; }

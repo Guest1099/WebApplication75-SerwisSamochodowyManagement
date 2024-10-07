@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
-    public class DaneOsobowe
+    public class Owner
     {
         [Key]
-        public string DaneOsoboweId { get; set; }
+        public string OwnerId { get; set; }
+
+
+        // dane personalne
 
         [Required]
         public string Imie { get; set; }
@@ -14,7 +17,7 @@ namespace Domain.Models
         public string Nazwisko { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DataUrodzenia { get; set; }
+        public string DataUrodzenia { get; set; }
         public string Pesel { get; set; }
         [Required]
         public string Kraj { get; set; }
@@ -31,22 +34,23 @@ namespace Domain.Models
         [Required]
         public string Miejscowosc { get; set; }
         public Plec Plec { get; set; }
-        public RodzajOsoby RodzajOsoby { get; set; }
-
-        public RodzajTransakcji RodzajTransakcji { get; set; }
+        public RodzajKlienta RodzajOsoby { get; set; }
+         
         public string DataDodania { get; set; }
 
 
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Telefon { get; set; }
 
 
-        
 
-        public List<Firma>? Firma { get; set; }
-        public List<Kupno>? Kupna { get; set; }
-        public List<Sprzedaz>? Sprzedaze { get; set; }
+        // dane firmy
+        public string? Firma_Nazwa { get; set; }
+        public string? Firma_NIP { get; set; }
+        public string? Firma_Regon { get; set; }
+        public string? Firma_Kraj { get; set; }
+        public string? Firma_Powiat { get; set; }
+        public string? Firma_Miasto { get; set; }
+        public string? Firma_Ulica { get; set; }
+        public string? Firma_NumerUlicy { get; set; }
+
     }
 }

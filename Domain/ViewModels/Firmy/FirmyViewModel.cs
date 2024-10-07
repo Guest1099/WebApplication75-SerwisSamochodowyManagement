@@ -2,8 +2,8 @@
 
 namespace Domain.ViewModels.Firmy
 {
-    public class FirmyViewModel : BaseViewModel<Firma>
+    public class FirmyViewModel : BaseViewModel<Owner>
     {
-        public List<Firma> Firmy { get; set; }
+        public List<Owner> Firmy { get; set; }
     }
 }

@@ -37,9 +37,9 @@ namespace Data
         public DbSet<PhotoKupno> PhotosKupno { get; set; }
         public DbSet<Sprzedaz> Sprzedaze { get; set; }
         public DbSet<Marka> Marki { get; set; }
-        public DbSet<DaneOsobowe> DaneOsobowe { get; set; }
-        public DbSet<Firma> Firmy { get; set; }
-        public DbSet<PhotoFirma> PhotosFirma { get; set; }
+        public DbSet<Client> DaneOsobowe { get; set; }
+        public DbSet<Owner> Firmy { get; set; }
+        public DbSet<PhotoOwner> PhotosFirma { get; set; }
         public DbSet<RodzajTowaru> RodzajeTowarow { get; set; }
         public DbSet<PhotoRodzajTowaru> PhotosRodzajTowaru { get; set; }
         public DbSet<Towar> Towary { get; set; }
@@ -56,13 +56,13 @@ namespace Data
 
 
 
-            builder.Entity<DaneOsobowe>()
+            builder.Entity<Client>()
                 .HasMany(h => h.Firma).WithOne(w => w.Wlasciciel).HasForeignKey(f => f.WlascicielId).OnDelete(DeleteBehavior.ClientNoAction);
 
-            builder.Entity<DaneOsobowe>()
+            builder.Entity<Client>()
                 .HasMany(h => h.Kupna).WithOne(w => w.Kupujacy).HasForeignKey(f => f.KupujacyId).OnDelete(DeleteBehavior.ClientNoAction);
 
-            builder.Entity<DaneOsobowe>()
+            builder.Entity<Client>()
                 .HasMany(h => h.Sprzedaze).WithOne(w => w.Sprzedajacy).HasForeignKey(f => f.SprzedajacyId).OnDelete(DeleteBehavior.ClientNoAction);
 
 

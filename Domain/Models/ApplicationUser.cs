@@ -18,7 +18,7 @@ namespace Domain.Models
         public bool Newsletter { get; set; }
         public int IloscZalogowan { get; set; }
         public string DataOstatniegoZalogowania { get; set; }
-        public DateTime DataDodania { get; set; }
+        public string DataDodania { get; set; }
 
 
 
