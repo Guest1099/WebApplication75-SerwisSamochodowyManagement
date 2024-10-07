@@ -47,12 +47,6 @@ namespace Application.Services
                 .FirstOrDefaultAsync(f => f.Email == userEmail);
         }
 
-        public async Task<ApplicationUser> GetUserByName(string userName)
-        {
-            return await _context.Users
-                .Include(i => i.PhotosUser)
-                .FirstOrDefaultAsync(f => f.UserName == userName);
-        }
 
 
         public async Task<LoginViewModel> Login(LoginViewModel model)
@@ -309,7 +303,7 @@ namespace Application.Services
                     NormalizedEmail = model.Email.ToUpper(),
                     SecurityStamp = Guid.NewGuid().ToString(),
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    DataDodania = DateTime.Now
+                    DataDodania = DateTime.Now.ToString()
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

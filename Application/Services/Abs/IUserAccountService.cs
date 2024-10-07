@@ -9,7 +9,6 @@ namespace Application.Services.Abs
         Task<List<ApplicationUser>> GetAll();
         Task<ApplicationUser> GetUserById(string userId);
         Task<ApplicationUser> GetUserByEmail(string userEmail);
-        Task<ApplicationUser> GetUserByName(string userName);
         Task<LoginViewModel> Login(LoginViewModel model);
         Task Logout();
         Task<ChangeEmailViewModel> ChangeEmail(ChangeEmailViewModel model);
