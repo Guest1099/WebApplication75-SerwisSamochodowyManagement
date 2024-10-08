@@ -19,9 +19,10 @@ namespace Application.Services.Abs
         Task<CreateUserViewModel> CreateUserAccount(CreateUserViewModel model);
         Task<EditUserViewModel> UpdateUserAccount(EditUserViewModel model);
 
-        Task<bool> DeleteAccount(string userId);
-        Task<bool> DeleteAccountByUserName(string userName);
+        Task<bool> DeleteAccountByUserId(string id);
+        Task<bool> DeleteAccountByEmail(string email);
         Task<bool> RemoveFromRole(string userName, string roleName);
+
         Task<bool> AddToRole(string userName, string roleName);
         Task<bool> AddClaim(string userName, string roleName);
         Task<List<string>> GetUserRoles(string userName);

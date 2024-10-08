@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frameworks", "Frameworks\Frameworks.csproj", "{D88A319A-AD6F-47BD-8C6F-E68B479BEEFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{4A95E75E-45C1-45E9-BF3B-F01779CC4972}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{16A961C5-8008-4E01-BD2A-DC540CB602FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{D88A319A-AD6F-47BD-8C6F-E68B479BEEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88A319A-AD6F-47BD-8C6F-E68B479BEEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88A319A-AD6F-47BD-8C6F-E68B479BEEFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A95E75E-45C1-45E9-BF3B-F01779CC4972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A95E75E-45C1-45E9-BF3B-F01779CC4972}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A95E75E-45C1-45E9-BF3B-F01779CC4972}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A95E75E-45C1-45E9-BF3B-F01779CC4972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A961C5-8008-4E01-BD2A-DC540CB602FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A961C5-8008-4E01-BD2A-DC540CB602FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A961C5-8008-4E01-BD2A-DC540CB602FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A961C5-8008-4E01-BD2A-DC540CB602FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -39,13 +39,12 @@ namespace Data.Repos
                         Nazwa = model.Nazwa,
                         Opis = model.Opis,
                         Przebieg = model.Przebieg,
-                        Rabat = model.Rabat,
                         Szerokosc = model.Szerokosc,
-                        Sztuk = model.Sztuk,
+                        Ilosc = model.Ilosc,
                         Waga = model.Waga,
                         Wysokosc = model.Wysokosc,
                         RokProdukcji = model.RokProdukcji,
-                        RodzajHandlu = model.RodzajHandlu,
+                        Rabat = model.Rabat,
                         MarkaId = model.MarkaId,
                         RodzajTowaruId = model.RodzajTowaruId,
                         DataDodania = model.DataDodania
@@ -86,13 +85,12 @@ namespace Data.Repos
                         towar.Nazwa = model.Nazwa;
                         towar.Opis = model.Opis;
                         towar.Przebieg = model.Przebieg;
-                        towar.Rabat = model.Rabat;
                         towar.Szerokosc = model.Szerokosc;
-                        towar.Sztuk = model.Sztuk;
+                        towar.Ilosc = model.Ilosc;
                         towar.Waga = model.Waga;
                         towar.Wysokosc = model.Wysokosc;
                         towar.RokProdukcji = model.RokProdukcji;
-                        towar.RodzajHandlu = model.RodzajHandlu;
+                        towar.Rabat = model.Rabat;
                         towar.MarkaId = model.MarkaId;
                         towar.RodzajTowaruId = model.RodzajTowaruId;
 
@@ -126,15 +124,15 @@ namespace Data.Repos
         public async Task<bool> Delete(string id)
         {
             bool deleteResult = false;
-            /*try
+            try
             {
-                var towar = await _context.Towary.FirstOrDefaultAsync (f=> f.TowarId == id);
+                var towar = await _context.Towary.FirstOrDefaultAsync(f => f.TowarId == id);
                 if (towar != null)
                 {
                     // usunięcie zdjęc
-                    var photosTowar = await _context.PhotosTowar.Where (w=> w.TowarId == towar.TowarId).ToListAsync ();
+                    var photosTowar = await _context.PhotosTowar.Where(w => w.TowarId == towar.TowarId).ToListAsync();
                     foreach (var photoTowar in photosTowar)
-                        _context.PhotosTowar.Remove (photoTowar);
+                        _context.PhotosTowar.Remove(photoTowar);
 
                     _context.Towary.Remove(towar);
 
@@ -147,7 +145,7 @@ namespace Data.Repos
             }
             catch (Exception ex)
             {
-            }*/
+            }
             return deleteResult;
         }
 
@@ -155,7 +153,7 @@ namespace Data.Repos
 
         private async Task CreateNewPhoto(List<IFormFile> files, string towarId)
         {
-            /*try
+            try
             {
                 if (files != null && files.Count > 0 && !string.IsNullOrEmpty(towarId))
                 {
@@ -163,15 +161,15 @@ namespace Data.Repos
                     {
                         if (file.Length > 0)
                         {
-                            byte [] photoData;
+                            byte[] photoData;
                             using (var stream = new MemoryStream())
                             {
                                 file.CopyTo(stream);
                                 photoData = stream.ToArray();
 
-                                PhotoTowar photoTowar = new PhotoTowar ()
+                                PhotoTowar photoTowar = new PhotoTowar()
                                 {
-                                    PhotoTowarId = Guid.NewGuid ().ToString (),
+                                    PhotoTowarId = Guid.NewGuid().ToString(),
                                     PhotoData = photoData,
                                     TowarId = towarId
                                 };
@@ -183,7 +181,7 @@ namespace Data.Repos
                     }
                 }
             }
-            catch { }*/
+            catch { }
         }
 
     }

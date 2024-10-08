@@ -9,11 +9,11 @@ namespace Domain.Models
         public string Controller { get; set; }
         public string Method { get; set; }
         public string Message { get; set; }
-        public DateTime DataUtworzenia { get; set; }
+        public string DataUtworzenia { get; set; }
 
 
 
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
     }
 }

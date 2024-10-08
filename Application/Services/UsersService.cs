@@ -5,12 +5,7 @@ using Domain.ViewModels.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -49,7 +44,7 @@ namespace Application.Services
 
 
 
-        public async Task<CreateUserViewModel> Create (CreateUserViewModel model)
+        public async Task<CreateUserViewModel> Create(CreateUserViewModel model)
         {
             // warunek sprawdza czy konto istnieje
             if ((await _context.Users.FirstOrDefaultAsync(f => f.Email == model.Email)) == null)

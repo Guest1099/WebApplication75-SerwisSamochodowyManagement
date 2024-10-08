@@ -412,57 +412,32 @@ namespace Application.Services
 
 
 
-        public async Task<bool> DeleteAccount(string userId)
+        public async Task<bool> DeleteAccountByUserId(string userId)
         {
             bool deleteResult = false;
-            if (!string.IsNullOrEmpty(userId))
-            {
-                ApplicationUser user = await _userManager.FindByIdAsync(userId);
-                if (user != null)
-                {
-                    // usunięcie zdjęć
-                    var photosUser = await _context.PhotosUser.Where(w => w.UserId == user.Id).ToListAsync();
-                    foreach (var photoUser in photosUser)
-                        _context.PhotosUser.Remove(photoUser);
-
-
-                    var result = await _userManager.DeleteAsync(user);
-                    if (result.Succeeded)
-                    {
-                        // Wylogowanie użytkownika
-                        //await _signInManager.SignOutAsync();
-                        deleteResult = true;
-                    }
-                }
-            }
-            return deleteResult;
-        }
-
-
-        public async Task<bool> DeleteAccountByUserName(string userName)
-        {
-            bool deleteResult = false;
-
             try
             {
-                if (!string.IsNullOrEmpty(userName))
+                if (!string.IsNullOrEmpty(userId))
                 {
-                    ApplicationUser user = await GetUserByName(userName);
+                    ApplicationUser user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-
-                        // usunięcie zdjęć
+                        // usunięcie zdjęć użytkownika
                         var photosUser = await _context.PhotosUser.Where(w => w.UserId == user.Id).ToListAsync();
                         foreach (var photoUser in photosUser)
                             _context.PhotosUser.Remove(photoUser);
 
 
+                        // usunięcie logów użytkownika
+                        var loggingErrors = await _context.LoggingErrors.Where(w => w.UserId == user.Id).ToListAsync();
+                        foreach (var loggingError in loggingErrors)
+                            _context.LoggingErrors.Remove(loggingError);
+
+
+
                         var result = await _userManager.DeleteAsync(user);
                         if (result.Succeeded)
                         {
-                            // Wylogowanie użytkownika
-                            await _signInManager.SignOutAsync();
-
                             // Wylogowanie użytkownika
                             //await _signInManager.SignOutAsync();
                             deleteResult = true;
@@ -470,10 +445,56 @@ namespace Application.Services
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
 
+            }
             return deleteResult;
         }
+
+
+
+
+        public async Task<bool> DeleteAccountByEmail(string email)
+        {
+            bool deleteResult = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(email))
+                {
+                    ApplicationUser user = await _userManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        // usunięcie zdjęć użytkownika
+                        var photosUser = await _context.PhotosUser.Where(w => w.UserId == user.Id).ToListAsync();
+                        foreach (var photoUser in photosUser)
+                            _context.PhotosUser.Remove(photoUser);
+
+
+                        // usunięcie logów użytkownika
+                        var loggingErrors = await _context.LoggingErrors.Where(w => w.UserId == user.Id).ToListAsync();
+                        foreach (var loggingError in loggingErrors)
+                            _context.LoggingErrors.Remove(loggingError);
+
+
+                        // usunięcie użytkownika
+                        var result = await _userManager.DeleteAsync(user);
+                        if (result.Succeeded)
+                        {
+                            // Wylogowanie użytkownika
+                            //await _signInManager.SignOutAsync();
+                            deleteResult = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return deleteResult;
+        }
+
 
 
 

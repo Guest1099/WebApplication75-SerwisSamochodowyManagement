@@ -20,7 +20,7 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aspnet-WebApplication75-Mvc-Samochody;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WebApplication75-Mvc-SerwisSamochodowyManagemenr;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -36,13 +36,15 @@ namespace Data
         public DbSet<Kupno> Kupna { get; set; }
         public DbSet<PhotoKupno> PhotosKupno { get; set; }
         public DbSet<Sprzedaz> Sprzedaze { get; set; }
+        public DbSet<PhotoSprzedaz> PhotosSprzedaz { get; set; }
         public DbSet<Marka> Marki { get; set; }
-        public DbSet<Client> DaneOsobowe { get; set; }
-        public DbSet<Owner> Firmy { get; set; }
-        public DbSet<PhotoOwner> PhotosFirma { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<DaneOsobowe> DaneOsobowe { get; set; }
+        public DbSet<PhotoDaneOsobowe> PhotosDaneOsobowe { get; set; }
+        public DbSet<Owner> Owners { get; set; }
         public DbSet<RodzajTowaru> RodzajeTowarow { get; set; }
-        public DbSet<PhotoRodzajTowaru> PhotosRodzajTowaru { get; set; }
         public DbSet<Towar> Towary { get; set; }
+        public DbSet<PhotoTowar> PhotosTowar { get; set; }
 
 
 
@@ -56,14 +58,28 @@ namespace Data
 
 
 
-            builder.Entity<Client>()
-                .HasMany(h => h.Firma).WithOne(w => w.Wlasciciel).HasForeignKey(f => f.WlascicielId).OnDelete(DeleteBehavior.ClientNoAction);
 
             builder.Entity<Client>()
-                .HasMany(h => h.Kupna).WithOne(w => w.Kupujacy).HasForeignKey(f => f.KupujacyId).OnDelete(DeleteBehavior.ClientNoAction);
+                .HasMany(h => h.Kupna).WithOne(w => w.Client).HasForeignKey(f => f.ClientId).OnDelete(DeleteBehavior.ClientNoAction);
 
             builder.Entity<Client>()
-                .HasMany(h => h.Sprzedaze).WithOne(w => w.Sprzedajacy).HasForeignKey(f => f.SprzedajacyId).OnDelete(DeleteBehavior.ClientNoAction);
+                .HasMany(h => h.Sprzedaze).WithOne(w => w.Client).HasForeignKey(f => f.ClientId).OnDelete(DeleteBehavior.ClientNoAction);
+
+
+
+
+
+
+            builder.Entity<DaneOsobowe>()
+                .HasMany(h => h.Owners).WithOne(w => w.DaneOsobowe).HasForeignKey(f => f.DaneOsoboweId).OnDelete(DeleteBehavior.ClientNoAction);
+
+            builder.Entity<DaneOsobowe>()
+                .HasMany(h => h.Clients).WithOne(w => w.DaneOsobowe).HasForeignKey(f => f.DaneOsoboweId).OnDelete(DeleteBehavior.ClientNoAction);
+
+            builder.Entity<DaneOsobowe>()
+                .HasMany(h => h.PhotosDaneOsobowe).WithOne(w => w.DaneOsobowe).HasForeignKey(f => f.DaneOsoboweId).OnDelete(DeleteBehavior.ClientNoAction);
+
+
 
 
 
@@ -72,45 +88,45 @@ namespace Data
 
 
 
-/*
+
+
+
 
             builder.Entity<Marka>()
-                .HasMany(h => h.Kupna).WithOne(w => w.Marka).HasForeignKey(f => f.MarkaId).OnDelete(DeleteBehavior.ClientNoAction);
-
-            builder.Entity<Marka>()
-                .HasMany(h => h.Sprzedaze).WithOne(w => w.Marka).HasForeignKey(f => f.MarkaId).OnDelete(DeleteBehavior.ClientNoAction);
+                .HasMany(h => h.Towary).WithOne(w => w.Marka).HasForeignKey(f => f.MarkaId).OnDelete(DeleteBehavior.ClientNoAction);
 
 
 
 
 
-            builder.Entity<RodzajPojazdu>()
-                .HasMany(h => h.Kupna).WithOne(w => w.RodzajPojazdu).HasForeignKey(f => f.RodzajPojazduId).OnDelete(DeleteBehavior.ClientNoAction);
-
-            builder.Entity<RodzajPojazdu>()
-                .HasMany(h => h.Sprzedasze).WithOne(w => w.RodzajPojazdu).HasForeignKey(f => f.RodzajPojazduId).OnDelete(DeleteBehavior.ClientNoAction);
 
 
 
+            builder.Entity<Owner>()
+                .HasMany(h => h.Kupna).WithOne(w => w.Owner).HasForeignKey(f => f.OwnerId).OnDelete(DeleteBehavior.ClientNoAction);
 
-            builder.Entity<RodzajTowaru>()
-                .HasMany(h => h.Kupna).WithOne(w => w.RodzajTowaru).HasForeignKey(f => f.RodzajTowaruId).OnDelete(DeleteBehavior.ClientNoAction);
+            builder.Entity<Owner>()
+                .HasMany(h => h.Sprzedaze).WithOne(w => w.Owner).HasForeignKey(f => f.OwnerId).OnDelete(DeleteBehavior.ClientNoAction);
 
-            builder.Entity<RodzajTowaru>()
-                .HasMany(h => h.Sprzedaze).WithOne(w => w.RodzajTowaru).HasForeignKey(f => f.RodzajTowaruId).OnDelete(DeleteBehavior.ClientNoAction);
+
+
+
+
 
             builder.Entity<RodzajTowaru>()
                 .HasMany(h => h.Towary).WithOne(w => w.RodzajTowaru).HasForeignKey(f => f.RodzajTowaruId).OnDelete(DeleteBehavior.ClientNoAction);
 
-            builder.Entity<RodzajTowaru>()
-                .HasMany(h => h.PhotosRodzajTowaru).WithOne(w => w.RodzajTowaru).HasForeignKey(f => f.RodzajTowaruId).OnDelete(DeleteBehavior.ClientNoAction);
-
-*/
 
 
 
 
-            // ROLES  
+
+
+
+
+
+
+            // Roles systemu  
             ApplicationRole personelRole = new ApplicationRole()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -130,7 +146,7 @@ namespace Data
 
 
 
-            // USERS  
+            // Użytkownicy systemu  
 
             string photoUser = "https://th.bing.com/th?q=User+ICO&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.6&pid=InlineBlock&mkt=pl-PL&cc=PL&setlang=pl&adlt=moderate&t=1&mw=247";
 
@@ -150,12 +166,12 @@ namespace Data
                 Kraj = "Polska",
                 Telefon = "235235235",
                 DataUrodzenia = DateTime.Now.AddYears(-_rand.Next(20, 50)),
-                EmailConfirmed = true,
                 NormalizedUserName = "admin@admin.pl".ToUpper(),
                 NormalizedEmail = "admin@admin.pl".ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                DataDodania = DateTime.Now,
+                EmailConfirmed = true,
+                DataDodania = DateTime.Now.ToString(),
             };
             administratorUser.PasswordHash = passwordHasher.HashPassword(administratorUser, "SDG%$@5423sdgagSDert");
             ApplicationUserRole applicationUserRoleAdmin = new ApplicationUserRole()
@@ -180,12 +196,12 @@ namespace Data
                 Kraj = "Polska",
                 Telefon = "235235235",
                 DataUrodzenia = DateTime.Now.AddYears(-_rand.Next(20, 50)),
-                EmailConfirmed = true,
                 NormalizedUserName = "pracownik1@pracownik1.pl".ToUpper(),
                 NormalizedEmail = "pracownik1@pracownik1.pl".ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                DataDodania = DateTime.Now,
+                EmailConfirmed = true,
+                DataDodania = DateTime.Now.ToString(),
             };
             pracownik1User.PasswordHash = passwordHasher.HashPassword(pracownik1User, "SDG%$@5423sdgagSDert");
             ApplicationUserRole applicationUserRolePracownik1User = new ApplicationUserRole()
@@ -210,12 +226,12 @@ namespace Data
                 Kraj = "Polska",
                 Telefon = "235235235",
                 DataUrodzenia = DateTime.Now.AddYears(-_rand.Next(20, 50)),
-                EmailConfirmed = true,
                 NormalizedUserName = "pracownik2@pracownik2.pl".ToUpper(),
                 NormalizedEmail = "pracownik2@pracownik2.pl".ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                DataDodania = DateTime.Now,
+                EmailConfirmed = true,
+                DataDodania = DateTime.Now.ToString(),
             };
             pracownik2User.PasswordHash = passwordHasher.HashPassword(pracownik2User, "SDG%$@5423sdgagSDert");
             ApplicationUserRole applicationUserRolePracownik2User = new ApplicationUserRole()
@@ -234,22 +250,22 @@ namespace Data
             PhotoUser photoUserAdmin = new PhotoUser()
             {
                 PhotoUserId = Guid.NewGuid().ToString(),
-                //PhotoData = GetImageBytesAsync (photoUser),
-                PhotoData = new byte[0],
+                PhotoData = GetImageBytesAsync(photoUser),
+                //PhotoData = new byte[0],
                 UserId = administratorUser.Id,
             };
             PhotoUser photoUserPracownik1 = new PhotoUser()
             {
                 PhotoUserId = Guid.NewGuid().ToString(),
-                //PhotoData = GetImageBytesAsync (photoUser),
-                PhotoData = new byte[0],
+                PhotoData = GetImageBytesAsync(photoUser),
+                //PhotoData = new byte[0],
                 UserId = pracownik1User.Id,
             };
             PhotoUser photoUserPracownik2 = new PhotoUser()
             {
                 PhotoUserId = Guid.NewGuid().ToString(),
-                //PhotoData = GetImageBytesAsync (photoUser),
-                PhotoData = new byte[0],
+                PhotoData = GetImageBytesAsync(photoUser),
+                //PhotoData = new byte[0],
                 UserId = pracownik2User.Id,
             };
             builder.Entity<PhotoUser>().HasData(photoUserAdmin, photoUserPracownik1, photoUserPracownik2);

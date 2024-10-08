@@ -1,14 +1,13 @@
 ﻿using Domain.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace Domain.ViewModels.Sprzedaze
+namespace Domain.ViewModels.Clients
 {
-    public class SprzedazViewModel
+    public class ClientViewModel
     {
-        public string TowarId { get; set; }
-        public Models.DaneOsobowe DaneOsobowe { get; set; }
+
         public Client Client { get; set; }
-        public Sprzedaz Sprzedaz { get; set; }
+        public Models.DaneOsobowe DaneOsobowe { get; set; }
 
 
 

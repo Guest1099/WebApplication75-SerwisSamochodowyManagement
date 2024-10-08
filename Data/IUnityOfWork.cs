@@ -4,11 +4,15 @@ namespace Data
 {
     public interface IUnityOfWork
     {
-        IPhotosUserRepository PhotosUserRepository { get; set; }
-        IFirmyRepository FirmyRepository { get; set; }
+        IOwnersRepository OwnersRepository { get; set; }
+        ILoggingErrorRepository LoggingErrorsRepository { get; set; }
         IKupnaRepository KupnaRepository { get; set; }
         ISprzedazeRepository SprzedazeRepository { get; set; }
         ITowaryRepository TowaryRepository { get; set; }
+        IMarkiRepository MarkiRepository { get; set; }
+        IClientsRepository ClientsRepository { get; set; }
+        IRodzajeTowarowRepository RodzajeTowarowRepository { get; set; }
+
 
         Task SaveChangesAsync();
     }

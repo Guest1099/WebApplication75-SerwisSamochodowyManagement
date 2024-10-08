@@ -1,32 +1,32 @@
+﻿using Application.Services.Abs;
+using Data;
+using Domain.Models;
+using Domain.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnityOfWork _unityOfWork;
+        private readonly IUserAccountService _userAccountService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnityOfWork unityOfWork, IUserAccountService userAccountService)
         {
-            _logger = logger;
+            _unityOfWork = unityOfWork;
+            _userAccountService = userAccountService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            NI.Navigation = Navigation.HomeIndex;
+
+            ViewData["IloscKont"] = (await _userAccountService.GetAll()).Count;
+
+
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -17,16 +17,16 @@ namespace Domain.Models
 
 
 
-        public string? OwnerKupujacyId { get; set; }
-        public Owner? OwnerKupujacy { get; set; }
+        public string? OwnerId { get; set; }
+        public Owner? Owner { get; set; }
 
 
-        public string? ClientSprzedajacyId { get; set; }
-        public Client? ClientSprzedajacy { get; set; }
+        public string? ClientId { get; set; }
+        public Client? Client { get; set; }
 
 
         public string? TowarId { get; set; }
-        public Towar Towar { get; set; }
+        public Towar? Towar { get; set; }
 
 
         public List<PhotoKupno>? PhotosKupno { get; set; }

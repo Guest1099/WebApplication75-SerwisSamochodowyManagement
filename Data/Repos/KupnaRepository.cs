@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Data.Repos.Abs;
+using Domain.Models;
 using Domain.ViewModels.Kupna;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -31,68 +32,105 @@ namespace Data.Repos
             {
                 try
                 {
-                    Owner firmaKupujacy = await _context.Firmy
-                        .Include(i => i.Wlasciciel)
-                        .FirstOrDefaultAsync(f => f.NazwaFirmy == "FirmaWlasciciel");
-                    Client daneOsoboweKupujacy = firmaKupujacy.Wlasciciel;
+                    // znalezienie danych ownera
+                    Owner owner = await _context.Owners
+                        .Include(i => i.DaneOsobowe)
+                        .FirstOrDefaultAsync(f => f.DaneOsobowe.Firma_Nazwa == "FirmaWlasciciel");
 
-
-                    Client daneOsoboweSprzedajacy = new Client()
+                    if (owner != null)
                     {
-                        Imie = model.Imie_DaneOsobowe,
-                        Nazwisko = model.Nazwisko_DaneOsobowe,
-                        Telefon = model.Telefon_DaneOsobowe,
-                        Ulica = model.Ulica_DaneOsobowe,
-                        NumerUlicy = model.NumerUlicy_DaneOsobowe,
-                        Miejscowosc = model.Miejscowosc_DaneOsobowe,
-                        Pesel = model.Pesel_DaneOsobowe,
-                        Kraj = model.Kraj_DaneOsobowe,
-                        KodPocztowy = model.KodPocztowy_DaneOsobowe,
-                        DataUrodzenia = model.DataUrodzenia_DaneOsobowe,
-                        Plec = model.Plec_DaneOsobowe,
-                        Email = model.Email_DaneOsobowe,
-                        RodzajTransakcji = model.RodzajTransakcji_DaneOsobowe,
-                        DataDodania = DateTime.Now.ToString()
-                    };
-                    _context.DaneOsobowe.Add(daneOsoboweSprzedajacy);
-                    await _context.SaveChangesAsync();
+                        // stworzenie danych kupującego
+                        DaneOsobowe daneOsoboweClient = new DaneOsobowe()
+                        {
+                            DaneOsoboweId = Guid.NewGuid().ToString(),
+                            Imie = model.DaneOsobowe.Imie,
+                            Nazwisko = model.DaneOsobowe.Nazwisko,
+                            Ulica = model.DaneOsobowe.Ulica,
+                            NumerUlicy = model.DaneOsobowe.NumerUlicy,
+                            Miejscowosc = model.DaneOsobowe.Miejscowosc,
+                            Kraj = model.DaneOsobowe.Kraj,
+                            Powiat = model.DaneOsobowe.Powiat,
+                            KodPocztowy = model.DaneOsobowe.KodPocztowy,
+                            Pesel = model.DaneOsobowe.Pesel,
+                            DataUrodzenia = model.DaneOsobowe.DataUrodzenia,
+                            Email = model.DaneOsobowe.Email,
+                            Telefon = model.DaneOsobowe.Telefon,
+                            Plec = model.DaneOsobowe.Plec,
+                            RodzajOsoby = model.DaneOsobowe.RodzajOsoby,
 
-                    Owner firmaSprzedajacy = new Owner()
-                    {
-                        FirmaId = Guid.NewGuid().ToString(),
-                        Kraj = model.Kupno.FirmaSprzedajacy.Kraj,
-                        Miasto = model.Kupno.FirmaSprzedajacy.Miasto,
-                        NazwaFirmy = model.Kupno.FirmaSprzedajacy.NazwaFirmy,
-                        NIP = model.Kupno.FirmaSprzedajacy.NIP,
-                        Ulica = model.Kupno.FirmaSprzedajacy.Ulica,
-                        NumerUlicy = model.Kupno.FirmaSprzedajacy.NumerUlicy,
-                        Powiat = model.Kupno.FirmaSprzedajacy.Powiat,
-                        Regon = model.Kupno.FirmaSprzedajacy.Regon,
-                        WlascicielId = model.Kupno.FirmaSprzedajacy.WlascicielId
-                    };
-                    _context.Firmy.Add(firmaSprzedajacy);
-                    await _context.SaveChangesAsync();
+                            Firma_Nazwa = model.DaneOsobowe.Firma_Nazwa,
+                            Firma_NIP = model.DaneOsobowe.Firma_NIP,
+                            Firma_Regon = model.DaneOsobowe.Firma_Regon,
+                            Firma_Ulica = model.DaneOsobowe.Firma_Ulica,
+                            Firma_NumerUlicy = model.DaneOsobowe.Firma_NumerUlicy,
+                            Firma_Miejscowosc = model.DaneOsobowe.Firma_Miejscowosc,
+                            Firma_KodPocztowy = model.DaneOsobowe.Firma_KodPocztowy,
+                            Firma_Powiat = model.DaneOsobowe.Firma_Powiat,
+                            Firma_Kraj = model.DaneOsobowe.Firma_Kraj,
 
-
-
-                    Kupno kupno = new Kupno()
-                    {
-                        KupnoId = Guid.NewGuid().ToString(),
-                        FirmaKupujacyId = firmaKupujacy.FirmaId,
-                        FirmaSprzedajacyId = firmaSprzedajacy.FirmaId,
-                        DaneOsoboweSprzedajacyId = daneOsoboweSprzedajacy.DaneOsoboweId,
-                        TowarId = model.Kupno.TowarId,
-                        DataZakupu = DateTime.Now
-                    };
-
-                    _context.Kupna.Add(kupno);
-                    await _context.SaveChangesAsync();
-                    model.Success = true;
+                            DataDodania = DateTime.Now.ToString()
+                        };
+                        _context.DaneOsobowe.Add(daneOsoboweClient);
+                        await _context.SaveChangesAsync();
 
 
-                    // Dodanie zdjęcia
-                    await CreateNewPhoto(model.Files, kupno.KupnoId);
 
+                        // dodanie Clienta do bazy razem danymi osobowymi
+                        Client clientKupujacy = new Client()
+                        {
+                            ClientId = Guid.NewGuid().ToString(),
+                            DaneOsoboweId = daneOsoboweClient.DaneOsoboweId
+                        };
+                        _context.Clients.Add(clientKupujacy);
+                        await _context.SaveChangesAsync();
+
+
+
+                        Towar towar = new Towar()
+                        {
+                            TowarId = Guid.NewGuid().ToString(),
+                            Nazwa = model.Towar.Nazwa,
+                            Opis = model.Towar.Opis,
+                            Cena = model.Towar.Cena,
+                            Ilosc = model.Towar.Ilosc,
+                            Kolor = model.Towar.Kolor,
+                            Wysokosc = model.Towar.Wysokosc,
+                            Szerokosc = model.Towar.Szerokosc,
+                            Waga = model.Towar.Waga,
+                            Przebieg = model.Towar.Przebieg,
+                            RokProdukcji = model.Towar.RokProdukcji,
+                            Rabat = model.Towar.Rabat,
+                            MarkaId = model.Towar.MarkaId,
+                            RodzajTowaruId = model.Towar.RodzajTowaruId,
+                            DataDodania = model.Towar.DataDodania
+                        };
+                        _context.Towary.Add(towar);
+                        await _context.SaveChangesAsync();
+
+
+                        // dodanie kupna do bazy
+
+                        Kupno kupno = new Kupno()
+                        {
+                            KupnoId = Guid.NewGuid().ToString(),
+                            CenaZakupu = model.Kupno.CenaZakupu,
+                            CenaSprzedazy = model.Kupno.CenaSprzedazy,
+                            DodatkoweInformacje = model.Kupno.DodatkoweInformacje,
+                            OwnerId = owner.OwnerId,
+                            ClientId = clientKupujacy.ClientId,
+                            TowarId = towar.TowarId,
+                            DataZakupu = DateTime.Now.ToString()
+                        };
+                        _context.Kupna.Add(kupno);
+                        await _context.SaveChangesAsync();
+
+
+                        // Dodanie zdjęcia
+                        await CreateNewPhoto(model.Files, kupno.KupnoId);
+
+                        model.Success = true;
+
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -114,55 +152,76 @@ namespace Data.Repos
             {
                 try
                 {
+                    // pobranie Kupna z bazy danych oraz danych właściciela wraz z danymi osobowymi
                     var kupno = await _context.Kupna
-                        .Include(i => i.FirmaKupujacy)
-                            .ThenInclude(t => t.Wlasciciel)
+                        .Include(i => i.Owner)
+                            .ThenInclude(t => t.DaneOsobowe)
+                        .Include(i => i.Client)
+                            .ThenInclude(t => t.DaneOsobowe)
                         .FirstOrDefaultAsync(f => f.KupnoId == model.Kupno.KupnoId);
 
                     if (kupno != null)
                     {
-                        var firmaSprzedajacy = await _context.Firmy.FirstOrDefaultAsync(f => f.FirmaId == kupno.FirmaSprzedajacyId);
-                        if (firmaSprzedajacy != null)
+                        // pobranie danych klienta wraz z danymi osobowymi
+                        var client = kupno.Client;
+                        if (client != null)
                         {
-                            firmaSprzedajacy.Kraj = model.Kupno.FirmaSprzedajacy.Kraj;
-                            firmaSprzedajacy.Miasto = model.Kupno.FirmaSprzedajacy.Miasto;
-                            firmaSprzedajacy.NazwaFirmy = model.Kupno.FirmaSprzedajacy.NazwaFirmy;
-                            firmaSprzedajacy.NIP = model.Kupno.FirmaSprzedajacy.NIP;
-                            firmaSprzedajacy.Ulica = model.Kupno.FirmaSprzedajacy.Ulica;
-                            firmaSprzedajacy.NumerUlicy = model.Kupno.FirmaSprzedajacy.NumerUlicy;
-                            firmaSprzedajacy.Powiat = model.Kupno.FirmaSprzedajacy.Powiat;
-                            firmaSprzedajacy.Regon = model.Kupno.FirmaSprzedajacy.Regon;
-                            firmaSprzedajacy.WlascicielId = model.Kupno.FirmaSprzedajacy.WlascicielId;
+                            var daneOsoboweClient = kupno.Client.DaneOsobowe;
+                            if (daneOsoboweClient != null)
+                            {
+                                // aktualizacja danych osobowych klienta
+
+                                daneOsoboweClient.Imie = model.DaneOsobowe.Imie;
+                                daneOsoboweClient.Nazwisko = model.DaneOsobowe.Nazwisko;
+                                daneOsoboweClient.Ulica = model.DaneOsobowe.Ulica;
+                                daneOsoboweClient.NumerUlicy = model.DaneOsobowe.NumerUlicy;
+                                daneOsoboweClient.Miejscowosc = model.DaneOsobowe.Miejscowosc;
+                                daneOsoboweClient.Kraj = model.DaneOsobowe.Kraj;
+                                daneOsoboweClient.Powiat = model.DaneOsobowe.Powiat;
+                                daneOsoboweClient.KodPocztowy = model.DaneOsobowe.KodPocztowy;
+                                daneOsoboweClient.Pesel = model.DaneOsobowe.Pesel;
+                                daneOsoboweClient.DataUrodzenia = model.DaneOsobowe.DataUrodzenia;
+                                daneOsoboweClient.Email = model.DaneOsobowe.Email;
+                                daneOsoboweClient.Telefon = model.DaneOsobowe.Telefon;
+                                daneOsoboweClient.Plec = model.DaneOsobowe.Plec;
+                                daneOsoboweClient.RodzajOsoby = model.DaneOsobowe.RodzajOsoby;
+
+                                daneOsoboweClient.Firma_Nazwa = model.DaneOsobowe.Firma_Nazwa;
+                                daneOsoboweClient.Firma_NIP = model.DaneOsobowe.Firma_NIP;
+                                daneOsoboweClient.Firma_Regon = model.DaneOsobowe.Firma_Regon;
+                                daneOsoboweClient.Firma_Ulica = model.DaneOsobowe.Firma_Ulica;
+                                daneOsoboweClient.Firma_NumerUlicy = model.DaneOsobowe.Firma_NumerUlicy;
+                                daneOsoboweClient.Firma_Miejscowosc = model.DaneOsobowe.Firma_Miejscowosc;
+                                daneOsoboweClient.Firma_KodPocztowy = model.DaneOsobowe.Firma_KodPocztowy;
+                                daneOsoboweClient.Firma_Powiat = model.DaneOsobowe.Firma_Powiat;
+                                daneOsoboweClient.Firma_Kraj = model.DaneOsobowe.Firma_Kraj;
+
+                                daneOsoboweClient.DataDodania = model.DaneOsobowe.DataDodania;
+
+
+                                _context.Entry(daneOsoboweClient).State = EntityState.Modified;
+                            }
                         }
 
 
-                        var daneOsoboweSprzedajacy = await _context.DaneOsobowe.FirstOrDefaultAsync(f => f.DaneOsoboweId == kupno.DaneOsoboweSprzedajacyId);
-                        if (daneOsoboweSprzedajacy != null)
-                        {
-                            daneOsoboweSprzedajacy.Imie = model.Imie_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Nazwisko = model.Nazwisko_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Telefon = model.Telefon_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Ulica = model.Ulica_DaneOsobowe;
-                            daneOsoboweSprzedajacy.NumerUlicy = model.NumerUlicy_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Miejscowosc = model.Miejscowosc_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Pesel = model.Pesel_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Kraj = model.Kraj_DaneOsobowe;
-                            daneOsoboweSprzedajacy.KodPocztowy = model.KodPocztowy_DaneOsobowe;
-                            daneOsoboweSprzedajacy.DataUrodzenia = model.DataUrodzenia_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Plec = model.Plec_DaneOsobowe;
-                            daneOsoboweSprzedajacy.Email = model.Email_DaneOsobowe;
-                            daneOsoboweSprzedajacy.RodzajTransakcji = model.RodzajTransakcji_DaneOsobowe;
-                        }
 
+                        // aktualizacja danych kupna
 
+                        kupno.CenaZakupu = model.Kupno.CenaZakupu;
+                        kupno.CenaSprzedazy = model.Kupno.CenaSprzedazy;
+                        kupno.DodatkoweInformacje = model.Kupno.DodatkoweInformacje;
                         kupno.DataZakupu = model.Kupno.DataZakupu;
-
                         _context.Entry(kupno).State = EntityState.Modified;
+
+
+
+                        // zapisanie zmodyfikowanych danych w bazie
                         await _context.SaveChangesAsync();
 
 
-                        // Dodanie zdjęcia
-                        await CreateNewPhoto(model.Files, kupno.FirmaSprzedajacyId);
+                        // Dodanie nowych zdjęć
+                        await CreateNewPhoto(model.Files, kupno.KupnoId);
+
 
                         model.Success = true;
                     }
@@ -199,8 +258,8 @@ namespace Data.Repos
                         _context.PhotosKupno.Remove(photoKupno);
 
                     _context.Kupna.Remove(kupno);
-
                     await _context.SaveChangesAsync();
+
                     deleteResult = true;
                 }
                 else

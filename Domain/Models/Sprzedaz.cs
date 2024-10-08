@@ -6,7 +6,8 @@ namespace Domain.Models
     {
         [Key]
         public string SprzedazId { get; set; }
-         
+        public string Opis { get; set; }
+
 
         [Required]
         [DataType(DataType.Currency)]
@@ -26,7 +27,7 @@ namespace Domain.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public double VatBrutton23 { get; set; }
+        public double VatBrutto23 { get; set; }
 
         public double ZyskNetto { get; set; }
 
@@ -36,7 +37,7 @@ namespace Domain.Models
         public int Sztuk { get; set; }
         public double Rabat { get; set; }
 
-         
+
         public string DodatkoweInformacje { get; set; }
 
         [Required]
@@ -46,18 +47,18 @@ namespace Domain.Models
 
 
         public string? OwnerId { get; set; }
-        public Owner? OwnerKupujacy { get; set; }
+        public Owner? Owner { get; set; }
 
 
-        public string? ClientSprzedajacyId { get; set; }
-        public Client? ClientSprzedajacy { get; set; }
+        public string? ClientId { get; set; }
+        public Client? Client { get; set; }
 
-         
+
 
         public string? TowarId { get; set; }
         public Towar? Towar { get; set; }
 
-         
+
         public List<PhotoSprzedaz>? PhotosSprzedaz { get; set; }
 
     }
