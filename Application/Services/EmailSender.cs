@@ -5,7 +5,7 @@
     /// </summary>
     public class EmailSender //: IEmailSender
     {
-        /*private const string apiKey = "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";
+        /*private const string apiKey = "apiKey";
         public void Send(string email)
         {
             if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
