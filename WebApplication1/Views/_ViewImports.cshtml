@@ -1,0 +1,27 @@
+﻿@using WebApplication1
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore;
+@using Data
+@using Domain.Models
+@using Domain.Models.Enums
+@using Domain.ViewModels.Account
+@using Domain.ViewModels.Clients
+@using Domain.ViewModels.DaneOsobowe
+@using Domain.ViewModels.Kupna
+@using Domain.ViewModels.LoggingErrors
+@using Domain.ViewModels.Marki
+@using Domain.ViewModels.Owners
+@using Domain.ViewModels.PhotosUser
+@using Domain.ViewModels.RodzajeTowarow
+@using Domain.ViewModels.Roles
+@using Domain.ViewModels.Sprzedaze
+@using Domain.ViewModels.Towary
+@using Domain.ViewModels.UserRoles
+@using Domain.ViewModels.Users
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@inject ApplicationDbContext Context
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager

@@ -1,0 +1,26 @@
+﻿@model RodzajTowaruViewModel
+
+<div class="headerCe">Tworzenie nowego rodzaju towaru</div>
+
+<form method="post" asp-action="Create" asp-controller="RodzajeTowarow">
+    <input type="hidden" asp-for="RodzajTowaru.RodzajTowaruId" value="@Model.RodzajTowaru.RodzajTowaruId" />
+
+    <div class="db">
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwa rodzaju towaru</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="RodzajTowaru.Name" />
+                <span asp-validation-for="RodzajTowaru.Name" class="c-red"></span>
+                <span class="c-red">@Model.Result</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="RodzajeTowarow" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+
+</form> 

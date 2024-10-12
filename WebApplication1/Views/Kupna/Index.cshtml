@@ -1,0 +1,251 @@
+﻿@* @model KupnaViewModel
+
+@{
+    int index = 0;
+    index = Model.PageSize * (Model.PageIndex - 1);
+}
+
+
+<form method="post" asp-action="Index" asp-controller="Kupna" class="form-paginator-container">
+    <input type="hidden" asp-for="PageIndex" value="@Model.PageIndex" />
+
+    <div class="top-serach-bar">
+        <a asp-action="Create" asp-controller="Kupna" class="buttonCreate">+ dodaj</a>
+
+        <div class="df">
+            <!-- Wyszukiwarka -->
+            <div class="wyszukiwarkaContainer">
+                <input asp-for="q" placeholder="szukana fraza..." />
+                <button type="submit" class="input-search-icon"></button>
+            </div>
+
+
+            <!-- Sortowanie -->
+            <div>
+                <select asp-for="SortowanieOption" asp-items='new SelectList(new List<string>() { "Nazwa A-Z", "Nazwa Z-A" }, "Nazwa A-Z")' class="selectOption"></select>
+                <input type="submit" value="Sortuj" class="selectOptionButton" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Lp</th>
+                <td>Zdjęcie</td>
+                <th>Nazwa</th>
+                <th>Cena zakupu</th>
+                <th>Data zakupu</th>
+                <th>Sprzedajacy</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kupno in Model.Paginator)
+            {
+                index++;
+                <tr>
+                    <td class="iw">
+                        <span>@index.</span>
+                    </td>
+
+
+                    <td>
+                        @if (kupno.PhotosKupno != null && kupno.PhotosKupno.Any())
+                        {
+                            <div class="imageRounded">
+                                <partial name="_displayPhoto" model="@kupno.PhotosKupno[0].PhotoData" />
+                            </div>
+                        }
+                    </td>
+
+
+                    <td>
+                        @kupno.DataZakupu
+                    </td>
+
+                    <td>
+                        @{
+                            if (kupno.DaneOsoboweSprzedajacy != null)
+                            {
+                                <div class="db">
+                                    <h5>Dane sprzedającego</h5>
+                                    <span>@kupno.DaneOsoboweSprzedajacy.RodzajOsoby</span>
+                                    @if (kupno.DaneOsoboweSprzedajacy.RodzajOsoby == RodzajOsoby.Firma)
+                                    {
+                                        if (kupno.FirmaSprzedajacy != null)
+                                        {
+                                            <span>@kupno.FirmaSprzedajacy.NazwaFirmy</span>
+                                            <span>@kupno.FirmaSprzedajacy.NIP</span>
+                                            <span>@kupno.DaneOsoboweSprzedajacy.Imie</span>
+                                            <span>@kupno.DaneOsoboweSprzedajacy.Nazwisko</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>@kupno.DaneOsoboweSprzedajacy.Imie</span>
+                                        <span>@kupno.DaneOsoboweSprzedajacy.Nazwisko</span>
+                                        <span>@kupno.DaneOsoboweSprzedajacy.Ulica @kupno.DaneOsoboweSprzedajacy.NumerUlicy</span>
+                                        <span>@kupno.DaneOsoboweSprzedajacy.KodPocztowy</span>
+                                        <span>@kupno.DaneOsoboweSprzedajacy.Miejscowosc</span>
+                                    }
+                                </div>
+                            }
+                        }
+                    </td>
+
+                    <td class="aw">
+                        <div class="df">
+                            <a asp-action="Edit"
+                               asp-controller="Kupna"
+                               asp-route-kupnoId="@kupno.KupnoId"
+                               class="buttonEdit">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-controller="Kupna"
+                               asp-route-id="@kupno.KupnoId"
+                               class="buttonDelete">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+    @if (Model.Kupna.Count > 5)
+    {
+
+        <!-- Paginator -->
+        bool hasPrevious = Model.Paginator.HasPreviousPage;
+        bool hasNext = Model.Paginator.HasNexPage;
+
+
+        <div class="df mt-30">
+            <div class="w-40 centery">
+
+                <div class="df centery">
+                    <p>Pokaż</p>
+                    <select asp-for="PageSize" asp-items='@new SelectList(new List<string> () { "5", "10", "15", "20" })' class="selectOption"></select>
+                    <input type="submit" value="Wybierz" class="selectOptionButton" />
+                </div>
+
+            </div>
+
+            <div class="w-60 centery">
+                <div class="w-100 centery">
+                    <div class="df fs-11 centery">
+                        @if (hasPrevious)
+                        {
+                            <a asp-action="Index"
+                               asp-controller="Kupna"
+                               asp-route-PageSize="@Model.PageSize"
+                               asp-route-PageIndex="@(Model.Paginator.PageIndex - 1)"
+                               asp-route-q="@Model.q"
+                               asp-route-SortowanieOption="@Model.SortowanieOption"
+                               class="paginatorButton">
+                                Prev
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index"
+                               asp-controller="Kupna"
+                               class="paginatorButton disable-link">
+                                Prev
+                            </a>
+                        }
+
+
+                        <div class="df ml-10 mr-10">
+                            @{
+                                int length = Model.PageIndex + Model.Paginator.Count;
+
+                                string style = "padding: 3px 10px; border: 1px solid lightgray; background-color: white;";
+
+
+                                Model.Start = 1;
+                                Model.End = Model.PageSize + 1;
+                                int srodek = (int)Math.Round ((double) (Model.PageSize/2));
+
+                                if (Model.PageIndex > srodek)
+                                {
+                                    Model.Start = Model.PageIndex - (srodek - 1);
+                                    Model.End = Model.PageIndex + Model.PageSize - srodek;
+                                }
+
+
+
+                                for (var i = Model.Start; i < Model.End; i++)
+                                {
+                                    if (i == Model.PageIndex)
+                                    {
+                                        style = "padding: 7px 10px; background-color: lightgray; color: black; font-weight: bold";
+                                    }
+                                    else
+                                    {
+                                        style = "padding: 7px 10px; background-color: white;";
+                                    }
+                                    if (i <= Model.Paginator.TotalPage)
+                                    {
+                                        <a asp-action="Index"
+                                           asp-controller="Kupna"
+                                           asp-route-PageSize="@Model.PageSize"
+                                           asp-route-PageIndex="@i"
+                                           asp-route-q="@Model.q"
+                                           asp-route-SortowanieOption="@Model.SortowanieOption"
+                                           class="paginator-item"
+                                           style="@style">
+                                            @i
+                                        </a>
+                                    }
+                                }
+                            }
+                        </div>
+
+
+                        @if (hasNext)
+                        {
+                            <a asp-action="Index"
+                               asp-controller="Kupna"
+                               asp-route-PageSize="@Model.PageSize"
+                               asp-route-PageIndex="@(Model.Paginator.PageIndex + 1)"
+                               asp-route-q="@Model.q"
+                               asp-route-SortowanieOption="@Model.SortowanieOption"
+                               class="paginatorButton">
+                                Next
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index"
+                               asp-controller="Kupna"
+                               class="paginatorButton disable-link">
+                                Next
+                            </a>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+
+</form> *@

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center mb-50">
+    <h1 class="display-4">Statystyki</h1> 
+</div>
+
+
+<div class="df wrap">
+
+    <div class="dashboardBlock">
+        <span class="b">Ilość książek</span>
+        <div class="lineBetween"></div>
+        <span>@ViewData["IloscKsiazek"]</span>
+    </div>
+
+    <div class="dashboardBlock">
+        <span class="b">Ilość wypożyczonych książek</span>
+        <div class="lineBetween"></div>
+        <span>@ViewData["IloscWypozyczonych"]</span>
+    </div>
+
+    <div class="dashboardBlock">
+        <span class="b">Wypożyczonych w sumie</span>
+        <div class="lineBetween"></div>
+        <span>@ViewData["LacznieWypozyczonych"]</span>
+    </div>
+
+    <div class="dashboardBlock">
+        <span class="b">Ilość kont</span>
+        <div class="lineBetween"></div>
+        <span>@ViewData["IloscKont"]</span>
+    </div>
+
+    <div class="dashboardBlock">
+        <span class="b">Ilość wypożyczających</span>
+        <div class="lineBetween"></div>
+        <span>@ViewData["IloscWypozyczajacych"]</span>
+    </div>
+
+</div>

@@ -1,0 +1,59 @@
+﻿
+
+<div class="topNavigation centery">
+    <div class="w-900px" style="margin: 0 auto;">
+
+        <div class="df-sb centery">
+            <div class="db">
+                <span style="font-size: 12px; font-weight: bold;">Serwis Samochodowy Management</span>
+                <span style="font-size: 11px;">Panel Administratora</span>
+            </div>
+            <div class="df centery">
+                <div>
+                    Zalogowany użytkownik 
+                    <span style="font-weight: bold;">@User.Identity.Name</span>
+                </div>
+
+
+
+                <!-- dropdown button -->
+                <div class="dropdown-container">
+                    <div class="dropdown">
+                        <button class="dropbtn">></button>
+                        <div class="dropdown-content">
+                            <a asp-action="ChangePassword" asp-controller="Account">Zmień hasło</a>
+                            <a asp-action="ChangeEmail" asp-controller="Account">Zmień email</a>
+
+                            @*Opcja "Delete" nie jest dostępna dla administratora wtedy gdy ich liczba jest >= 1*@
+                            @{
+                                try
+                                {
+                                    if (SignInManager.IsSignedIn(User))
+                                    {
+                                        if ((await UserManager.GetUsersInRoleAsync("Administrator")).Count > 1 &&
+                                                User.Identity.Name != "admin@admin.pl")
+                                        {
+                                            <a asp-action="Delete" asp-controller="Settings">Usuń konto</a>
+                                        }
+                                    }
+                                }
+                                catch { }
+                            }
+
+                            <a asp-action="Edit" asp-controller="Account">Zaktualizuj dane</a>
+                            <a asp-action="Messages" asp-controller="Account">Wiadomości</a>
+                            <a asp-action="Logout" asp-controller="Account">Wyloguj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="w-900px" style="margin: 0 auto;">
+    <partial name="_navigationInfo" />
+</div>
+<div class="border-bottom"></div>

@@ -1,0 +1,190 @@
+﻿@model EditUserViewModel
+
+
+<div class="headerCe">Edytowanie danych istniejącego użytkownika</div>
+
+<form method="post" asp-action="Edit" asp-controller="Users" enctype="multipart/form-data">
+    <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+    @*<input type="hidden" asp-for="Email" value="@Model.Email" />*@
+
+    <div class="db">
+
+        @if (Model.PhotosUser != null && Model.PhotosUser.Any())
+        {
+            <div class="row">
+                <div class="fieldName">
+                    <span>Dodaj zdjęcie</span>
+                </div>
+                <div class="fieldEdit">
+                    @foreach (var photoUser in Model.PhotosUser)
+                    {
+                        <div class="image w-200px">
+                            <partial name="_displayPhoto" model="@photoUser.PhotoData" />
+                        </div>
+
+                        <a asp-action="DeletePhotoUser"
+                           asp-controller="Users"
+                           asp-route-userId="@photoUser.UserId"
+                           asp-route-photoUserId="@photoUser.PhotoUserId">
+                            Usuń zdjęcie
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Dodaj kolejne zdjęcia</span>
+            </div>
+            <div class="fieldEdit">
+                <input id="files" asp-for="Files" multiple onchange="saveFiles()" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Imię</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Imie" />
+                <span asp-validation-for="Imie" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwisko</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Nazwisko" />
+                <span asp-validation-for="Nazwisko" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Ulica</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Ulica" />
+                <span asp-validation-for="Ulica" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Numer ulicy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="NumerUlicy" />
+                <span asp-validation-for="NumerUlicy" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kod pocztowy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="KodPocztowy" />
+                <span asp-validation-for="KodPocztowy" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Miejscowość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Miejscowosc" />
+                <span asp-validation-for="Miejscowosc" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kraj</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Kraj" asp-items='@new SelectList(new List <string> () { "Polska" })' class="selectOption"></select>
+                <span asp-validation-for="Kraj" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Telefon</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Telefon" />
+                <span asp-validation-for="Telefon" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Płeć</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Plec" asp-items='@new SelectList(Enum.GetValues(typeof(Plec)))' class="selectOption"></select>
+                <span asp-validation-for="Plec" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Data urodzenia</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DataUrodzenia" />
+                <span asp-validation-for="DataUrodzenia" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Email</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Email" />
+                <span asp-validation-for="Email" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="headerCeUser">Role</div>
+
+        <div class="row">
+            <div class=" ">
+                @foreach (var role in await Context.Roles.ToListAsync())
+                {
+                    string roleName = role.Name;
+                    string roleNamForName = $"{role.Name}ForName";
+                    <div class="form-check">
+                        <label class="form-check-label" for="@roleNamForName">
+                            <input class="form-check-input" type="checkbox" id="@roleNamForName" name="SelectedRoles" value="@roleName" @(Model.SelectedRoles != null && Model.SelectedRoles.Contains(roleName) ? "checked" : "") />
+                            @roleName
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="Users" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+</form>
+
+<br />
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <p class="text-danger">
+        @Model.Result
+    </p>
+}

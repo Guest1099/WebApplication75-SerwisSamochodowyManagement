@@ -1,0 +1,18 @@
+﻿@model byte [] 
+
+@{
+
+    if (Model != null || Model.Any())
+    {
+        try
+        {
+            var base64Image = Convert.ToBase64String(Model);
+            var imgSrc = $"data:image/jpeg;base64,{base64Image}";
+
+            <img src="@imgSrc" />
+        }
+        catch { }
+    }
+
+
+}

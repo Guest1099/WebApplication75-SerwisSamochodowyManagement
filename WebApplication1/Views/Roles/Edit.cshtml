@@ -1,0 +1,28 @@
+﻿@model EditRoleViewModel
+
+
+<div class="headerCe">Tworzenie nowej roli</div>
+
+<form method="post" asp-action="Edit" asp-controller="Roles">
+    <input type="hidden" asp-for="RoleId" value="@Model.RoleId" />
+
+
+    <div class="db">
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwa roli</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Name" />
+                <span asp-validation-for="Name" class="c-red"></span>
+                <span class="c-red">@Model.Result</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="Roles" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+
+</form> 

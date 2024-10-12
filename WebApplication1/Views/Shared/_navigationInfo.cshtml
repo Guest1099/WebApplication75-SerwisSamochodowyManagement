@@ -1,0 +1,257 @@
+﻿
+@{
+    string text = "Jesteś tutaj: ";
+
+    <div class="df centery fs-10" style="color: rgb(100,100,100); margin: 8px 0px;">
+
+        @switch (NI.Navigation)
+        {
+            case Navigation.HomeIndex:
+                <span class="mr-10">@text</span>
+                <span>Home</span>
+                break;
+
+
+
+
+
+
+            case Navigation.AccountChangeEmail:
+                <span class="mr-10">@text</span>
+                <span>Account</span>
+                <div class="arrowNi"></div>
+                <span>Change email</span>
+                break;
+            case Navigation.AccountChangePassword:
+                <span class="mr-10">@text</span>
+                <span>Account</span>
+                <div class="arrowNi"></div>
+                <span>Change password</span>
+                break;
+            case Navigation.AccountEdit:
+                <span class="mr-10">@text</span>
+                <span>Account</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+            case Navigation.UsersIndex:
+                <span class="mr-10">@text</span>
+                <span>Konta użytkowników</span>
+                break;
+            case Navigation.UsersCreate:
+                <span class="mr-10">@text</span>
+                <span>Konta użytkowników</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.UsersEdit:
+                <span class="mr-10">@text</span>
+                <span>Konta użytkowników</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+            case Navigation.RolesIndex:
+                <span class="mr-10">@text</span>
+                <span>Roles</span>
+                break;
+            case Navigation.RolesCreate:
+                <span class="mr-10">@text</span>
+                <span>Roles</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.RolesEdit:
+                <span class="mr-10">@text</span>
+                <span>Roles</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+                 
+
+
+
+
+
+
+            case Navigation.OwnersIndex:
+                <span class="mr-10">@text</span>
+                <span>Owners</span>
+                break;
+            case Navigation.OwnersCreate:
+                <span class="mr-10">@text</span>
+                <span>Owners</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.OwnersEdit:
+                <span class="mr-10">@text</span>
+                <span>Owners</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.ClientsIndex:
+                <span class="mr-10">@text</span>
+                <span>Klienci</span>
+                break;
+            case Navigation.ClientsCreate:
+                <span class="mr-10">@text</span>
+                <span>Klienci</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.ClientsEdit:
+                <span class="mr-10">@text</span>
+                <span>Klienci</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.MarkiIndex:
+                <span class="mr-10">@text</span>
+                <span>Marki</span>
+                break;
+            case Navigation.MarkiCreate:
+                <span class="mr-10">@text</span>
+                <span>Marki</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.MarkiEdit:
+                <span class="mr-10">@text</span>
+                <span>Marki</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.TowaryIndex:
+                <span class="mr-10">@text</span>
+                <span>Towary</span>
+                break;
+            case Navigation.TowaryCreate:
+                <span class="mr-10">@text</span>
+                <span>Towary</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.TowaryEdit:
+                <span class="mr-10">@text</span>
+                <span>Towary</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.RodzajeTowarowIndex:
+                <span class="mr-10">@text</span>
+                <span>Rodzaje towarów</span>
+                break;
+            case Navigation.RodzajeTowarowCreate:
+                <span class="mr-10">@text</span>
+                <span>Rodzaje towarów</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.RodzajeTowarowEdit:
+                <span class="mr-10">@text</span>
+                <span>Rodzaje towarów</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.SprzedazeIndex:
+                <span class="mr-10">@text</span>
+                <span>Sprzedaze</span>
+                break;
+            case Navigation.SprzedazeCreate:
+                <span class="mr-10">@text</span>
+                <span>Sprzedaze</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.SprzedazeEdit:
+                <span class="mr-10">@text</span>
+                <span>Sprzedaze</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+            case Navigation.KupnaIndex:
+                <span class="mr-10">@text</span>
+                <span>Kupna</span>
+                break;
+            case Navigation.KupnaCreate:
+                <span class="mr-10">@text</span>
+                <span>Kupna</span>
+                <div class="arrowNi"></div>
+                <span>Create</span>
+                break;
+            case Navigation.KupnaEdit:
+                <span class="mr-10">@text</span>
+                <span>Kupna</span>
+                <div class="arrowNi"></div>
+                <span>Edit</span>
+                break;
+
+
+
+
+
+
+
+        }
+
+    </div>
+
+}

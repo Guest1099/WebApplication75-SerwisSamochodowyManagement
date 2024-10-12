@@ -1,0 +1,247 @@
+﻿@model TowarViewModel
+
+<div class="headerCe">Tworzenie nowego towaru</div>
+
+<form method="post" asp-action="Create" asp-controller="Towary">
+
+    <div class="db">
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Rodzaj towaru</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Towar.RodzajTowaruId" asp-items="ViewBag.rodzajeTowarowIdList" class="selectOption"></select>
+                <span asp-validation-for="Towar.RodzajTowaruId" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Marka</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Towar.MarkaId" asp-items="ViewBag.markiIdList" class="selectOption"></select>
+                <span asp-validation-for="Towar.MarkaId" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwa</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Nazwa" />
+                <span asp-validation-for="Towar.Nazwa" class="c-red"></span>
+            </div>
+        </div>
+        
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Opis</span>
+            </div>
+            <div class="fieldEdit">
+                <textarea asp-for="Towar.Opis" rows="5" cols="10"></textarea>
+                <span asp-validation-for="Towar.Opis" class="c-red"></span>
+            </div>
+        </div>
+       
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Cena</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Cena" />
+                <span asp-validation-for="Towar.Cena" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Ilosc</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Ilosc" />
+                <span asp-validation-for="Towar.Ilosc" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Rabat</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Rabat" />
+                <span asp-validation-for="Towar.Rabat" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kolor</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Kolor" />
+                <span asp-validation-for="Towar.Kolor" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Przebieg</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Przebieg" />
+                <span asp-validation-for="Towar.Przebieg" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Rok produkcji</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.RokProdukcji" />
+                <span asp-validation-for="Towar.RokProdukcji" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Szerokość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Szerokosc" />
+                <span asp-validation-for="Towar.Szerokosc" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Wysokość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Wysokosc" />
+                <span asp-validation-for="Towar.Wysokosc" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Waga</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Towar.Waga" />
+                <span asp-validation-for="Towar.Waga" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Dodaj zdjęcie</span>
+            </div>
+            <div class="fieldEdit">
+                <input id="files" asp-for="Files" multiple onchange="saveFiles()" />
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="Towary" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+
+</form>
+
+
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <span action="c-red">
+        @Model.Result
+    </span>
+}
+
+
+
+
+
+@section Scripts {
+
+    @*Skrypt pozwalający zapamiętać wybrane zdjęcia po przeładowaniu strony*@
+    <script>
+        var filesInput = document.getElementById('files');
+        // Funkcja do zapisywania przesłanych plików w sessionStorage
+        function saveFiles() {
+            var files = filesInput.files;
+
+            if (files.length > 0) {
+                var filesArray = Array.from(files);
+                var filesData = filesArray.map(file => {
+                    return {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size
+                    };
+                });
+
+                sessionStorage.setItem('uploadedFiles', JSON.stringify(filesData));
+            }
+        }
+
+        // Funkcja pobiera dane z sesji do zmiennej po załadowaniu okna
+        window.onload = function () {
+            var uploadedFilesData = sessionStorage.getItem('uploadedFiles');
+            if (uploadedFilesData) {
+                var uploadedFiles = JSON.parse(uploadedFilesData); // zamienia tekst na obiekt
+
+
+                // Utworzenie nowej listy plików
+                var newFilesList = new DataTransfer();
+
+                uploadedFiles.forEach(file => {
+                    // Utworzenie nowego pliku i dodanie go do listy plików
+                    var newFile = new File([], file.name, { type: file.type, size: file.size });
+                    newFilesList.items.add(newFile);
+                });
+
+                // Przypisanie nowej listy plików do pola input
+                filesInput.files = newFilesList.files;
+                sessionStorage.clear();
+            }
+        };
+    </script>
+}

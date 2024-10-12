@@ -1,0 +1,231 @@
+﻿@model CreateUserViewModel
+
+@{
+    string password = "SDG%$@5423sdgagSDert";
+}
+<h5>@password</h5>
+
+<div class="headerCe">Dodawanie nowego użytkownika</div>
+
+<form method="post" asp-action="Create" asp-controller="Users" enctype="multipart/form-data">
+
+    <div class="db">
+
+        <div class="headerCeUser">Rejestracja</div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Email</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Email" placeholder="adres@email.pl" />
+                <span asp-validation-for="Email" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Hasło</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Password" placeholder="***************" />
+                <span asp-validation-for="Password" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="headerCeUser">Dane użytkownika</div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Dodaj zdjęcie lub zdjęcia</span>
+            </div>
+            <div class="fieldEdit">
+                <input id="files" asp-for="Files" multiple onchange="saveFiles()" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Imię</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Imie" placeholder="Jan" />
+                <span asp-validation-for="Imie" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwisko</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Nazwisko" placeholder="Kowalski" />
+                <span asp-validation-for="Nazwisko" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Ulica</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Ulica" placeholder="Ulica" />
+                <span asp-validation-for="Ulica" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Numer ulicy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="NumerUlicy" placeholder="15" />
+                <span asp-validation-for="NumerUlicy" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kod pocztowy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="KodPocztowy" placeholder="12-123" />
+                <span asp-validation-for="KodPocztowy" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Miejscowość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Miejscowosc" placeholder="Warszawa" />
+                <span asp-validation-for="Miejscowosc" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kraj</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Kraj" asp-items='@new SelectList(new List <string> () { "Polska" })' class="selectOption"></select>
+                <span asp-validation-for="Kraj" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Telefon</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="Telefon" placeholder="123-123-123" />
+                <span asp-validation-for="Telefon" class="c-red"></span>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Płeć</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="Plec" asp-items='@new SelectList(Enum.GetValues(typeof(Plec)))' class="selectOption"></select>
+                <span asp-validation-for="Plec" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Data urodzenia</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DataUrodzenia" />
+                <span asp-validation-for="DataUrodzenia" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="headerCeUser">Role</div>
+
+        <div class="row">
+            <div class=" ">
+                @foreach (var role in await Context.Roles.ToListAsync())
+                {
+                    string roleName = role.Name;
+                    string roleNamForName = $"{role.Name}ForName";
+                    <div class="form-check">
+                        <label class="form-check-label" for="@roleNamForName">
+                            <input class="form-check-input" type="checkbox" id="@roleNamForName" name="SelectedRoles" value="@roleName" @(Model.SelectedRoles != null && Model.SelectedRoles.Contains(roleName) ? "checked" : "") />
+                            @roleName
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="Users" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+</form>
+
+<br />
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <p class="text-danger">
+        @Model.Result
+    </p>
+}
+
+
+@section Scripts {
+
+    @*Skrypt pozwalający zapamiętać wybrane zdjęcia po przeładowaniu strony*@
+    <script>
+        var filesInput = document.getElementById('files');
+        // Funkcja do zapisywania przesłanych plików w sessionStorage
+        function saveFiles() {
+            var files = filesInput.files;
+
+            if (files.length > 0) {
+                var filesArray = Array.from(files);
+                var filesData = filesArray.map(file => {
+                    return {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size
+                    };
+                });
+
+                sessionStorage.setItem('uploadedFiles', JSON.stringify(filesData));
+            }
+        }
+
+        // Funkcja pobiera dane z sesji do zmiennej po załadowaniu okna
+        window.onload = function () {
+            var uploadedFilesData = sessionStorage.getItem('uploadedFiles');
+            if (uploadedFilesData) {
+                var uploadedFiles = JSON.parse(uploadedFilesData); // zamienia tekst na obiekt
+
+
+                // Utworzenie nowej listy plików
+                var newFilesList = new DataTransfer();
+
+                uploadedFiles.forEach(file => {
+                    // Utworzenie nowego pliku i dodanie go do listy plików
+                    var newFile = new File([], file.name, { type: file.type, size: file.size });
+                    newFilesList.items.add(newFile);
+                });
+
+                // Przypisanie nowej listy plików do pola input
+                filesInput.files = newFilesList.files;
+                sessionStorage.clear();
+            }
+        };
+    </script>
+}

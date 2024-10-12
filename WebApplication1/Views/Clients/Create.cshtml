@@ -1,0 +1,322 @@
+﻿@model ClientViewModel
+
+
+<div class="headerCe">Dodawanie nowego klienta</div>
+
+<form method="post" asp-action="Create" asp-controller="Clients" enctype="multipart/form-data">
+
+    <div class="db">
+
+        <div class="headerCeUser">Dane osobowe</div>
+         
+         
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Dodaj zdjęcie lub zdjęcia</span>
+            </div>
+            <div class="fieldEdit">
+                <input id="files" asp-for="Files" multiple onchange="saveFiles()" />
+            </div>
+        </div>
+        
+
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Imię</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Imie" placeholder="Jan" />
+                <span asp-validation-for="DaneOsobowe.Imie" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwisko</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Nazwisko" placeholder="Kowalski" />
+                <span asp-validation-for="DaneOsobowe.Nazwisko" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Ulica</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Ulica" placeholder="Ulica" />
+                <span asp-validation-for="DaneOsobowe.Ulica" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Numer ulicy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.NumerUlicy" placeholder="15" />
+                <span asp-validation-for="DaneOsobowe.NumerUlicy" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Miejscowość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Miejscowosc" placeholder="Warszawa" />
+                <span asp-validation-for="DaneOsobowe.Miejscowosc" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kod pocztowy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.KodPocztowy" placeholder="12-123" />
+                <span asp-validation-for="DaneOsobowe.KodPocztowy" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Powiat</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Powiat" placeholder="Mazowieckie" />
+                <span asp-validation-for="DaneOsobowe.Powiat" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kraj</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Kraj" placeholder="Polska" />
+                <span asp-validation-for="DaneOsobowe.Kraj" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Pesel</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="123123123" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Email</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Email" placeholder="123-123-123" />
+                <span asp-validation-for="DaneOsobowe.Email" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Telefon</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Telefon" placeholder="123-123-123" />
+                <span asp-validation-for="DaneOsobowe.Telefon" class="c-red"></span>
+            </div>
+        </div>
+
+         
+        <div class="row">
+            <div class="fieldName">
+                <span>Płeć</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="DaneOsobowe.Plec" asp-items='@new SelectList(Enum.GetValues(typeof(Plec)))' class="selectOption"></select>
+                <span asp-validation-for="DaneOsobowe.Plec" class="c-red"></span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Rodzaj osoby</span>
+            </div>
+            <div class="fieldEdit">
+                <select asp-for="DaneOsobowe.RodzajOsoby" asp-items='@new SelectList(Enum.GetValues(typeof(RodzajOsoby)))' class="selectOption"></select>
+                <span asp-validation-for="DaneOsobowe.RodzajOsoby" class="c-red"></span>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="headerCeUser">Dane firmy</div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Nazwa firmy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="Nazwa firmy" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>NIP</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="123123123" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Regon</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="123123123" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Ulica</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="Kwiatowa" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Numer ulicy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="15" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Miejscowość</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="Warszawa" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kod pocztowy</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="21-222" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Powiat</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="Mazowiecki" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="fieldName">
+                <span>Kraj</span>
+            </div>
+            <div class="fieldEdit">
+                <input asp-for="DaneOsobowe.Pesel" placeholder="Polska" />
+                <span asp-validation-for="DaneOsobowe.Pesel" class="c-red"></span>
+            </div>
+        </div>
+         
+
+    </div>
+
+
+
+    <div class="bottom-bar-options">
+        <a asp-action="Index" asp-controller="Clients" class="form-button-a">Anuluj</a>
+        <input type="submit" value="Zapisz" class="form-button" />
+    </div>
+</form>
+
+<br />
+@if (!string.IsNullOrEmpty(Model.Result))
+{
+    <p class="text-danger">
+        @Model.Result
+    </p>
+}
+
+
+@section Scripts {
+
+    @*Skrypt pozwalający zapamiętać wybrane zdjęcia po przeładowaniu strony*@
+    <script>
+        var filesInput = document.getElementById('files');
+        // Funkcja do zapisywania przesłanych plików w sessionStorage
+        function saveFiles() {
+            var files = filesInput.files;
+
+            if (files.length > 0) {
+                var filesArray = Array.from(files);
+                var filesData = filesArray.map(file => {
+                    return {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size
+                    };
+                });
+
+                sessionStorage.setItem('photosClient', JSON.stringify(filesData));
+            }
+        }
+
+        // Funkcja pobiera dane z sesji do zmiennej po załadowaniu okna
+        window.onload = function () {
+            var uploadedFilesData = sessionStorage.getItem('photosClient');
+            if (uploadedFilesData) {
+                var uploadedFiles = JSON.parse(uploadedFilesData); // zamienia tekst na obiekt
+
+
+                // Utworzenie nowej listy plików
+                var newFilesList = new DataTransfer();
+
+                uploadedFiles.forEach(file => {
+                    // Utworzenie nowego pliku i dodanie go do listy plików
+                    var newFile = new File([], file.name, { type: file.type, size: file.size });
+                    newFilesList.items.add(newFile);
+                });
+
+                // Przypisanie nowej listy plików do pola input
+                filesInput.files = newFilesList.files;
+                sessionStorage.clear();
+            }
+        };
+    </script>
+}
